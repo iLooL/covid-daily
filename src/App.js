@@ -34,7 +34,8 @@ const ArticleDisplay = styled.div`
 
 export { Container, Hero }
 
-const API = axios.create({ baseURL: 'http://localhost:8080' });
+// const API = axios.create({ baseURL: 'http://localhost:5000' });
+const API = axios.create({ baseURL: 'http://52.54.150.47:5000' });
 function App() {
   // todays date
   let today = new Date();
@@ -46,10 +47,11 @@ function App() {
   
   // API calls
   const getArticles = async() => {
-    setLoading(true);
+    setLoading(true); 
     try {
       const result = await API.get('/');
       setArticles(result.data);
+      console.log(articles);
     } catch(err) {
       console.log(err)
     } finally {
@@ -68,8 +70,8 @@ function App() {
       <div>
         <p>Updated on { date }</p>
         { articles.map((article, index) => (
-          <ArticleWrapper>
-            <Link style={{ textDecoration: 'none', color: '#000000' }} to={`/article/${article.title.replaceAll(' ', '-')}`} key={index} state={{article}}>
+          <ArticleWrapper key={index}>
+            <Link style={{ textDecoration: 'none', color: '#000000' }} to={`/article/${article.title.replaceAll(' ', '-')}`} state={{article}}>
               <ArticleDisplay>
                 <h3>{ article.title }</h3>
                 <h4>Source: { article.id }</h4>  
